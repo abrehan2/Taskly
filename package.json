@@ -11,8 +11,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prettier": "prettier --write .",
-    "prepare": "husky"
+    "prettier": "prettier --write ."
   },
   "dependencies": {
     "next": "14.2.5",
