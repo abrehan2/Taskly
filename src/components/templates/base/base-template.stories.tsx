@@ -4,7 +4,7 @@ import { baseTemplateMockProps } from './base-template.mocks';
 
 // https://storybook.js.org/docs/api/arg-types - ArgTypes
 export default {
-  title: 'Templates/BaseTemplate',
+  title: 'templates/BaseTemplate',
   component: BaseTemplate,
   argTypes: {},
 } as Meta<typeof BaseTemplate>;
