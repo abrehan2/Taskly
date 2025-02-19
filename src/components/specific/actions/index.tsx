@@ -11,7 +11,7 @@ export default function Actions({
   selectedStatus,
 }: TActionComponent) {
   return (
-    <div className="border border-red-500 px-10 py-5 flex justify-between">
+    <div className="px-10 py-5 flex justify-between">
       <GenericSelect
         options={[{ value: 'all', label: 'All' }, ...statusOptions]}
         value={selectedStatus}

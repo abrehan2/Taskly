@@ -1,3 +1,4 @@
+// Imports:
 import FormError from '@/components/generics/form-error';
 import GenericSelect from '@/components/generics/select';
 import { Button } from '@/components/ui/button';
@@ -24,7 +25,7 @@ import { RootState } from '@/redux/store';
 import { modalKeys, TModalSchema } from '@/schemas/modal-schema';
 import { TModalComponent } from '@/types/modal';
 import { TTableRowProps } from '@/types/table';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
@@ -33,16 +34,17 @@ export default function TaskModal({ open, onClose }: TModalComponent) {
   const dispatch = useDispatch();
   const { formHook } = useModalForm();
 
-  console.log('FORM HOOK VALUES: ', formHook.getValues());
-
+  const row = useSelector(
+    (state: RootState) => state[TableSlice.name].row
+  ) as TTableRowProps | null;
   const activeEdit = useSelector(
     (state: RootState) => state[TableSlice.name].activeEdit
   );
   const existingRows =
     useSelector((state: RootState) => state[TableSlice.name].rows) ?? null;
-  const row = useSelector(
-    (state: RootState) => state[TableSlice.name].row
-  ) as TTableRowProps | null;
+  const [showDescription, setShowDescription] = useState(
+    activeEdit && row?.description ? true : false
+  );
 
   useEffect(() => {
     let resetTimeout: ReturnType<typeof setTimeout>;
@@ -52,14 +54,23 @@ export default function TaskModal({ open, onClose }: TModalComponent) {
         formHook.reset();
         dispatch(setTableRow(null));
         dispatch(setActiveEdit(false));
+        setShowDescription(false);
       }, 300);
     }
 
+    if (activeEdit && row?.description) {
+      setShowDescription(true);
+    }
+
     return () => clearTimeout(resetTimeout);
-  }, [dispatch, open]);
+  }, [dispatch, open, activeEdit, row]);
 
   function submitHandler(data: TModalSchema) {
     dispatch(tableRequest());
+
+    if (!showDescription) {
+      data.description = undefined;
+    }
 
     if (activeEdit && row) {
       const updatedRows = (existingRows ?? []).map(
@@ -81,6 +92,7 @@ export default function TaskModal({ open, onClose }: TModalComponent) {
 
     onClose();
     formHook.reset();
+    setShowDescription(false);
   }
 
   return (
@@ -118,57 +130,71 @@ export default function TaskModal({ open, onClose }: TModalComponent) {
                 <FormError formHook={formHook} name={modalKeys['TITLE']} />
               </div>
 
-              <div className="space-y-2">
+              <div className="flex justify-between gap-2">
                 <Controller
                   render={({ field }) => (
-                    <Textarea
-                      placeholder="Description"
-                      aria-label="Description"
-                      className="rounded ring-transparent resize-none"
-                      maxLength={100}
+                    <GenericSelect
+                      placeholder="Select a status"
+                      label="Status"
+                      options={statusOptions}
+                      className="w-1/2"
                       {...field}
-                    ></Textarea>
+                    />
                   )}
-                  name={modalKeys['DESCRIPTION']}
+                  name={modalKeys['STATUS']}
                   control={formHook.control}
                 />
-                <FormError
-                  formHook={formHook}
-                  name={modalKeys['DESCRIPTION']}
+
+                <Controller
+                  render={({ field }) => (
+                    <GenericSelect
+                      placeholder="Select a priority"
+                      label="Priority"
+                      options={priorityOptions}
+                      className="w-1/2"
+                      {...field}
+                    />
+                  )}
+                  name={modalKeys['PRIORITY']}
+                  control={formHook.control}
                 />
               </div>
 
-              <div className="space-y-2">
-                <div className="flex justify-between gap-2">
+              {showDescription ? (
+                <div className="space-y-2">
                   <Controller
                     render={({ field }) => (
-                      <GenericSelect
-                        placeholder="Select a status"
-                        label="Status"
-                        options={statusOptions}
-                        className="w-1/2"
+                      <Textarea
                         {...field}
+                        placeholder="Description"
+                        className="rounded resize-none ring-transparent"
+                        maxLength={100}
                       />
                     )}
-                    name={modalKeys['STATUS']}
+                    name={modalKeys['DESCRIPTION']}
                     control={formHook.control}
                   />
 
-                  <Controller
-                    render={({ field }) => (
-                      <GenericSelect
-                        placeholder="Select a priority"
-                        label="Priority"
-                        options={priorityOptions}
-                        className="w-1/2"
-                        {...field}
-                      />
-                    )}
-                    name={modalKeys['PRIORITY']}
-                    control={formHook.control}
-                  />
+                  <button
+                    type="button"
+                    className="text-sm text-red-500 hover:underline"
+                    onClick={() => {
+                      setShowDescription(false);
+                      formHook.setValue(modalKeys['DESCRIPTION'], undefined);
+                    }}
+                  >
+                    Remove Description
+                  </button>
                 </div>
-              </div>
+              ) : (
+                <button
+                  type="button"
+                  className="text-sm text-blue-500 hover:underline"
+                  onClick={() => setShowDescription(true)}
+                >
+                  Add Description
+                </button>
+              )}
             </div>
           </form>
         </div>
