@@ -1,5 +1,5 @@
-<div>
-    <img src="https://iili.io/392c5U7.png" alt="Taskly Preview" style="max-width: 100%; height: auto;" />
+<div align="center">
+    <img src="https://iili.io/392ECrl.png" alt="Taskly Preview" style="max-width: 100%; height: 400px;" />
   </div>
 
 &nbsp;
