@@ -5,16 +5,13 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 import { MoonIcon, SunIcon } from '@heroicons/react/24/solid';
 import { useTheme } from 'next-themes';
-import { useState } from 'react';
 import { Button } from '../../ui/button';
 
 export default function Header({ Fallback = 'R' }: { Fallback?: string }) {
-  const [toggle, setToggle] = useState('light');
-  const { setTheme } = useTheme();
+  const { setTheme, theme } = useTheme();
 
   function toggleHandler() {
-    setToggle((prev) => (prev === 'light' ? 'dark' : 'light'));
-    setTheme(toggle);
+    setTheme(theme === 'light' ? 'dark' : 'light');
   }
 
   return (
@@ -33,10 +30,10 @@ export default function Header({ Fallback = 'R' }: { Fallback?: string }) {
         )}
         onClick={toggleHandler}
       >
-        {toggle === 'light' ? (
-          <SunIcon className="size-6 text-white dark:text-black" />
-        ) : (
+        {theme === 'light' ? (
           <MoonIcon className="size-6 text-white dark:text-black" />
+        ) : (
+          <SunIcon className="size-6 text-white dark:text-black" />
         )}
       </Button>
     </div>

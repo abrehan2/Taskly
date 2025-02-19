@@ -1,10 +1,23 @@
+export type TTableRowProps = {
+  id: string;
+  title: string;
+  description: string;
+  priority: string;
+  status: string;
+};
+
 export type TTableComponent = {
   tableHeaders?: Array<{ key: string; label: string }>;
-  tableRows: Array<object>;
+  tableRows: Array<TTableRowProps>;
   rowClass?: string;
-  onRowSelect?: (row: object, index: number) => void;
+  onRowSelect?: (row: TTableRowProps, index: number) => void;
   showActions?: boolean;
-  documentHandler?: () => void;
-  fileHandler?: () => void;
-  deleteHandler?: () => void;
+  editHandler?: (row: TTableRowProps) => void;
+  deleteHandler?: (row: TTableRowProps) => void;
+};
+
+export type TTablePagination = {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
 };
