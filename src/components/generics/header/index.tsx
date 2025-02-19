@@ -6,9 +6,9 @@ import { cn } from '@/lib/utils';
 import { MoonIcon, SunIcon } from '@heroicons/react/24/solid';
 import { useTheme } from 'next-themes';
 import { useState } from 'react';
-import { Button } from '../button';
+import { Button } from '../../ui/button';
 
-export default function Header() {
+export default function Header({ Fallback = 'R' }: { Fallback?: string }) {
   const [toggle, setToggle] = useState('light');
   const { setTheme } = useTheme();
 
@@ -18,23 +18,25 @@ export default function Header() {
   }
 
   return (
-    <div className="w-full py-5 px-10 flex justify-between items-center shadow-sm">
+    <div className="w-full py-5 px-10 flex justify-between items-center border-b border-ligt dark:border-dark">
       <Avatar className="transition-transform duration-300 ease-in-out hover:scale-110 size-12">
         <AvatarImage src="https://github.com/shadcn.png" />
-        <AvatarFallback className="bg-primary text-white">R</AvatarFallback>
+        <AvatarFallback className="dark:bg-white dark:text-black bg-black text-white">
+          {Fallback}
+        </AvatarFallback>
       </Avatar>
 
       <Button
         size="icon"
         className={cn(
-          'rounded bg-primary hover:bg-orange-400 transition-transform duration-300 ease-in-out hover:rotate-180'
+          'rounded bg-black hover:bg-opacity-85 dark:bg-white dark:text-black dark:hover:bg-opacity-85 transition-transform duration-300 ease-in-out hover:rotate-180'
         )}
         onClick={toggleHandler}
       >
         {toggle === 'light' ? (
-          <SunIcon className="size-6" />
+          <SunIcon className="size-6 text-white dark:text-black" />
         ) : (
-          <MoonIcon className="size-6 text-white" />
+          <MoonIcon className="size-6 text-white dark:text-black" />
         )}
       </Button>
     </div>
