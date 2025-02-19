@@ -9,7 +9,8 @@
    <div>
     <img src="https://img.shields.io/badge/-Next_JS-black?style=for-the-badge&logoColor=white&logo=nextdotjs&color=000000" alt="nextdotjs" />
     <img src="https://img.shields.io/badge/-TypeScript-black?style=for-the-badge&logoColor=white&logo=typescript&color=3178C6" alt="typescript" />
-     <img src="https://img.shields.io/badge/-Husky-black?style=for-the-badge&logoColor=white&logo=husky&color=29C88E" alt="husky" />
+    <img src="https://img.shields.io/badge/-Redux-black?style=for-the-badge&logoColor=white&logo=redux&color=764ABC" alt="redux" />
+    <img src="https://img.shields.io/badge/-Husky-black?style=for-the-badge&logoColor=white&logo=husky&color=29C88E" alt="husky" />
     <img src="https://img.shields.io/badge/-VS%20Code-black?style=for-the-badge&logoColor=white&logo=visual-studio-code&color=007ACC" alt="vscode" />
   </div>
 </div>
